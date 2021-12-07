@@ -21,6 +21,13 @@ app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+// 정적 파일 불러오기(업로드 테스트용)
+app.use(express.static(__dirname + "/public"));
+
+// 라우팅 정의
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/views/tag.html");
+});
 //route
 app.use('/api/posts', require('./routes/post'))
 
