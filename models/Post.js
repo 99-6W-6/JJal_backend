@@ -1,7 +1,7 @@
 const monggose = require('mongoose');
 const Schema = monggose.Schema;
 
-
+//test
 const postSchema = monggose.Schema({
     //userID
     writer:{
