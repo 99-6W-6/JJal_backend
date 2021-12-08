@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const Post = require('../models/Post')
-//const ffmpeg = require('fluent-ffmpeg');
 //const auth = requrie('')//권한 미들웨어 받아와서 적용해야함 , 로그인한 유저만 글을 포스팅 가능
 
 //Storage multer 
@@ -72,14 +71,23 @@ router.post('/',(req, res)=>{
 
 //메인페이지 리스트
 router.get('/', async(req, res)=>{
-    let {page} = req.query;
+
+    let page = req.query['page'];  //쿼리파리미터로 페이지 받아오기
+    
     page = page || 1 
+    console.log(page)
     try{
         const posts = await Post.find({})
             .sort({createdAt:-1})  //생성순으로 정렬, 조회수로 변경할건지 논의 할것
-            .skip((page-1)*20)
-            .limit(20)        //20개씩 보여줌 근데 이게 무한스크롤 되는지 모르겟음
-        res.json({posts})     //클라이언트에 post객체 response
+            .skip((page-1)*20)   //20개씩 빼고 보여줌 
+            .limit(20)        //20개씩 보여줌 
+        if(posts.length ==0){     
+            res.send({next:false}) 
+        }else{
+            res.json({posts})     //클라이언트에 post객체 response
+            console.log(posts)
+            
+        }
     }catch(error){
         res.status(400).send({
             errormessage:"포스트를 불러오는 중 오류가 발생"

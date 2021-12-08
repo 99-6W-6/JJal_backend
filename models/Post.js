@@ -9,7 +9,8 @@ const postSchema = monggose.Schema({
         ref:'User'
     },
     description:{
-        type:String
+        type:String,
+        required:[true,'최소 한개는 작성해주세요']
     },
     imgUrl:{
         type:String

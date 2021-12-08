@@ -1,5 +1,4 @@
 const express = require('express');
-//const cors = require('cors');
 const monggose = require('mongoose');
 const port = 3000;
 const bodyParser = require('body-parser');
@@ -12,7 +11,13 @@ const connect = monggose.connect("mongodb://localhost:27017/lighthouse",{
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
                 
-
+//cors origin에 fornt 주소 넣기
+const cors = require('cors');
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true
+}
+app.use(cors(corsOptions));
   
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
